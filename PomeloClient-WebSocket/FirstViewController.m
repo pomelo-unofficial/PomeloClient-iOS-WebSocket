@@ -29,7 +29,7 @@
     NSString *from = [dict objectForKey:@"from"];
     NSString *to = [dict objectForKey:@"target"];
     talkPerson.text = [NSString stringWithFormat:@"%@ said to %@", from, ( [to isEqualToString:@"*"] ? @"AllPeople" : to )];
-    chatContent.text = [dict objectForKey:@"msg"];
+    chatContent.text = [[dict objectForKey:@"msg"] description];
   }];
 
   [self.client onRoute:@"onAdd" withCallback:^(id arg){
@@ -84,7 +84,9 @@
     }];
   } else if (chatting) {
     chatting = NO;
-    [self.client notifyWithRoute:@"chat.chatHandler.send" andParams:[NSDictionary dictionaryWithObjectsAndKeys:text.text, @"content", @"channel", @"rid", @"*", @"target", hostName.text, @"from", nil]];
+    [self.client requestWithRoute:@"chat.chatHandler.send" andParams:[NSDictionary dictionaryWithObjectsAndKeys:text.text, @"content", @"channel", @"rid", @"*", @"target", hostName.text, @"from", nil] andCallback:^(id arg){
+      NSLog(@"response for chat.chatHandler.send :: %@", arg);
+    }];
   }
 }
 

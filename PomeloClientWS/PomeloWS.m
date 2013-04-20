@@ -490,6 +490,31 @@ private)
 
 - (void)dataInit:(NSDictionary *)data {
   // ignore for now todo we dont need dict or protos compress at present
+  NSLog(@"data init :: %@", data);
+  if (data == nil || [data objectForKey:@"sys"] == nil) {
+    return;
+  }
+
+  if (_data == nil) {
+    _data = [NSMutableDictionary dictionary];
+  }
+
+  NSDictionary *initDict = [[data objectForKey:@"sys"] objectForKey:@"dict"];
+  // NSDictionary *initProtos = [[data objectForKey:@"sys"] objectForKey:@"protos"];
+
+  // Init compress dict
+  if (initDict != nil) {
+    [_data setObject:initDict forKey:@"dict"];
+    [_data setObject:[NSMutableDictionary dictionaryWithCapacity:[initDict count]] forKey:@"abbrs"];
+
+    NSMutableDictionary *dataAbbrs = [_data objectForKey:@"abbrs"];
+
+    for (NSString *routeKey in initDict) {
+      [dataAbbrs setObject:routeKey forKey:[initDict objectForKey:routeKey]];
+    }
+  }
+
+  // todo Init protobuf protos defines
 }
 
 - (void)processMessage:(PWSMessage *)msg {
@@ -520,8 +545,22 @@ private)
 - (void)sendMessage:(NSInteger)reqId withRoute:(NSString *)route andMsg:(NSDictionary *)msg {
   PWSMessageType type = (reqId > 0) ? PWS_MT_REQUEST : PWS_MT_NOTIFY;
   NSLog(@"sendmsg :: %@", msg);
+
+  // todo check for protobuf compress
+  // blow is msg = Protocol.strencode(JSON.stringify(msg));
   NSData *msgSent = [PWSProtocol strEncode:[PomeloWS encodeJSON:msg error:nil]];
-  msgSent = [PWSProtocol messageEncodeWithID:reqId andType:type andCompress:NO andRoute:route andBody:msgSent];
+
+  // done todo check for dict route compress
+  BOOL compressRoute = NO;
+  NSDictionary *dataDict = [_data objectForKey:@"dict"];
+  NSNumber *routeCompressed = nil;
+  if (dataDict != nil && [dataDict objectForKey:route] != nil) { // route here is string
+    routeCompressed = [dataDict objectForKey:route];
+    compressRoute = YES;
+  }
+
+  NSLog(@"sendMessage routeCompresed Number :: %@", routeCompressed);
+  msgSent = [PWSProtocol messageEncodeWithID:reqId andType:type andCompress:compressRoute andRoute:(compressRoute ? routeCompressed : route) andBody:msgSent];
 
   NSData *packet = [PWSProtocol packageEncodeWithType:PWS_PT_DATA andBody:msgSent];
   [self send:packet];
