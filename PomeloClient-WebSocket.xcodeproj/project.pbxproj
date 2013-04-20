@@ -29,7 +29,6 @@
 		20A5F937838EDD2F0ECE7C57 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20A5F6DC1806AFF2C23EF0A3 /* CoreGraphics.framework */; };
 		20A5F9F1AF8A6EED12A11BD1 /* PomeloClient_WebSocketTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5F02E76CC57403E9D9C21 /* PomeloClient_WebSocketTests.m */; };
 		20A5FA16DC09B71EF892A079 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20A5FEA78873F093EFC4A557 /* Foundation.framework */; };
-		20A5FAE370E2196D5A073954 /* Pomelo.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5FD48EE7D0B613F94BE5B /* Pomelo.m */; };
 		20A5FB0F3D89FF283E202743 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A5F8BFAAB8289CBD2C858B /* second@2x.png */; };
 		20A5FC87783092FAA3FC5EBD /* PWSProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5F39CA397D9292D3E2479 /* PWSProtocol.m */; };
 		20A5FD487B0AE2E05DF45783 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 20A5F59D10740E338164F6D8 /* InfoPlist.strings */; };
@@ -98,7 +97,6 @@
 		20A5FC87C75BF2DBD431A75F /* PomeloClient_WebSocketTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PomeloClient_WebSocketTests.h; sourceTree = "<group>"; };
 		20A5FCA80B3EFC45A7C4AE30 /* NSData+SRB64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SRB64Additions.m"; sourceTree = "<group>"; };
 		20A5FCBEE7B0D9A1466B3F8C /* PBDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBDecoder.m; sourceTree = "<group>"; };
-		20A5FD48EE7D0B613F94BE5B /* Pomelo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pomelo.m; sourceTree = "<group>"; };
 		20A5FE3467951EB67CA99564 /* PBEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBEncoder.h; sourceTree = "<group>"; };
 		20A5FE8745898EF4F2B79AEA /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		20A5FEA78873F093EFC4A557 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -152,7 +150,6 @@
 		20A5F253444AB6E8F1284434 /* compatible */ = {
 			isa = PBXGroup;
 			children = (
-				20A5FD48EE7D0B613F94BE5B /* Pomelo.m */,
 				20A5F0018AB10B1E808CD192 /* Pomelo.h */,
 			);
 			path = compatible;
@@ -407,7 +404,6 @@
 				20A5F00B9E624B0B31CF7E66 /* PBCodec.m in Sources */,
 				20A5F47B880235D6E9E0A028 /* PBDecoder.m in Sources */,
 				20A5F53AF8738B5DA84A5518 /* PomeloWSProtobuf.m in Sources */,
-				20A5FAE370E2196D5A073954 /* Pomelo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

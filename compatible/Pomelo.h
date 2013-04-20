@@ -6,12 +6,10 @@
 //
 
 
-#import <Foundation/Foundation.h>
 #import "PomeloWS.h"
 
 #define PomeloDelegate PomeloWSDelegate
 
 typedef PomeloWSCallback PomeloCallback;
 
-@interface Pomelo : PomeloWS
-@end
+typedef PomeloWS Pomelo;
