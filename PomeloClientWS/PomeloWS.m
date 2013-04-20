@@ -22,25 +22,31 @@ NSString *const kPWSHandshakeDataUser = @"user";
 
 static NSString *const kPWSURLFormat = @"ws://%@:%d/";
 
-static NSUInteger kPWSNotifyReqID = 0;
+static NSUInteger const kPWSNotifyReqID = 0;
 
 /**
- *    Time
- * 1st. on the connection created
- * 3rd. after pomelo client initialed
- * 4th. disconnect
+ * 1st. after pomelo client initialed
+ * 2nd. user handshake callback with user handshake data
+ * 3rd. disconnected
  */
-// 已连接,但尚未初始化时
+// 已连接,已完成初始化
 NSString *const kPWSConnectCallback = @"__connectCallback__";
-// 以用户定义的连接参数作为回调参数的callback
+// 以用户定义的连接参数作为回调参数的 callback
 NSString *const kPWSUserCallback = @"__userCallback__";
-// 经过握手,初始化后
-NSString *const kPWSInitCallback = @"__initCallback__";
 // 断开连接时
 NSString *const kPWSDisconnectCallback = @"__disconnectCallback__";
 
-#define MAKE_ROUTE_KEY(key) [NSString stringWithFormat:@"route_%u", key]
-#define MAKE_CALLBACK_KEY(key) [NSString stringWithFormat:@"callback_%u", key]
+NS_INLINE
+
+NSString *PWSMakeRouteKey(NSUInteger key) {
+  return [NSString stringWithFormat:@"route_%u", key];
+}
+
+NS_INLINE
+
+NSString *PWSMakeCallbackKey(NSUInteger key) {
+  return [NSString stringWithFormat:@"callback_%u", key];
+}
 
 typedef enum {
   PWS_RES_OK = 200,
@@ -123,21 +129,21 @@ private)
 
 #pragma mark - connect
 - (void)connectToHost:(NSString *)host onPort:(NSInteger)port {
-  // done
+
   [self connectToHost:host onPort:port withCallback:nil];
 }
 
 - (void)connectToHost:(NSString *)host onPort:(NSInteger)port withCallback:(PomeloWSCallback)callback {
-  // done
+
   NSDictionary *params = nil;
   if (callback) {
-    params = [[NSDictionary alloc] initWithObjectsAndKeys:callback, kPWSInitCallback, nil];
+    params = [[NSDictionary alloc] initWithObjectsAndKeys:callback, kPWSConnectCallback, nil];
   }
   [self connectToHost:host onPort:port withParams:params];
 }
 
 - (void)connectToHost:(NSString *)host onPort:(NSInteger)port withParams:(NSDictionary *)params {
-  // done
+
   NSDictionary *userHandshakeBuffer = nil;
   PomeloWSCallback callback = nil;
   if (params != nil) {
@@ -156,10 +162,6 @@ private)
       [_callbacks setObject:callback forKey:kPWSUserCallback];
     }
 
-    callback = [params objectForKey:kPWSInitCallback];
-    if (callback) {
-      [_callbacks setObject:callback forKey:kPWSInitCallback];
-    }
   }
 
   // build handshake buffer structure
@@ -186,16 +188,16 @@ private)
 
 #pragma mark - disconnect
 - (void)disconnect {
-  // done
+
   [self disconnectWithCallback:nil];
 }
 
 - (void)disconnectWithCallback:(PomeloWSCallback)callback {
-  // done
+
   if (callback) {
     [_callbacks setObject:callback forKey:kPWSDisconnectCallback];
   }
-  // dont need any readyStage check. lib SocketRocket will do it.
+  // don't need any readyStage check. lib SocketRocket will do it.
   [_webSocket close];
 }
 
@@ -205,17 +207,6 @@ private)
   NSLog(@"did ws open ======> WS: %@", webSocket);
 
   // on connected
-  // todo consider don't invoke this callback
-  PomeloWSCallback callback = [_callbacks objectForKey:kPWSConnectCallback];
-  if (callback != nil) {
-    callback(self);
-    [_callbacks removeObjectForKey:kPWSConnectCallback];
-  }
-  // todo consider move this callback to connection has been initialed
-  if ([_delegate respondsToSelector:@selector(PomeloDidConnect:)]) {
-    [_delegate PomeloDidConnect:self];
-  }
-
   NSData *handshakeObj = [PWSProtocol packageEncodeWithType:PWS_PT_HANDSHAKE andBody:[PWSProtocol strEncode:[PomeloWS encodeJSON:_handShakeData error:nil]]];
   [self send:handshakeObj];
 }
@@ -223,12 +214,16 @@ private)
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
   NSLog(@"did ws message ===> WS: %@, MSG: %@", webSocket, message);
 
+  if ([_delegate respondsToSelector:@selector(Pomelo:didReceiveMessage:)]) {
+    [_delegate Pomelo:self didReceiveMessage:message];
+  }
+
   [self processPackage:[PWSProtocol packageDecode:message]];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket
  didFailWithError:(NSError *)error {
-  // done
+
   NSLog(@"did ws error =====> WS: %@, ERR: %@", webSocket, error);
 }
 
@@ -236,7 +231,7 @@ private)
  didCloseWithCode:(NSInteger)code
            reason:(NSString *)reason
          wasClean:(BOOL)wasClean {
-  // done
+
   // callback method
   PomeloWSCallback callback = [_callbacks objectForKey:kPWSDisconnectCallback];
   if (callback != nil) {
@@ -268,8 +263,8 @@ private)
 
   [self sendMessage:(++_reqId) withRoute:route andMsg:params];
 
-  [_routeMap setObject:route forKey:MAKE_ROUTE_KEY(_reqId)];
-  [_callbacks setObject:callback forKey:MAKE_CALLBACK_KEY(_reqId)];
+  [_routeMap setObject:route forKey:PWSMakeRouteKey(_reqId)];
+  [_callbacks setObject:callback forKey:PWSMakeCallbackKey(_reqId)];
 }
 
 - (void)notifyWithRoute:(NSString *)route andParams:(NSDictionary *)params {
@@ -281,7 +276,7 @@ private)
 }
 
 - (void)onRoute:(NSString *)route withCallback:(PomeloWSCallback)callback {
-  // done
+
   NSMutableArray *array = [_callbacks objectForKey:route];
   if (array == nil) {
     array = [NSMutableArray arrayWithCapacity:1];
@@ -292,7 +287,7 @@ private)
 }
 
 - (void)offRoute:(NSString *)route {
-  // done
+
   [_callbacks removeObjectForKey:route];
 }
 
@@ -335,13 +330,13 @@ private)
   [_webSocket send:data];
 }
 
-// done
+
 - (void)setTimeout:(BOOL *)timeoutFnShouldExe withSelector:(SEL)tocb_selector andObject:(id)object inDelay:(NSUInteger)delay {
   *timeoutFnShouldExe = YES;
   [self performSelector:tocb_selector withObject:object afterDelay:(delay * 0.001)];
 }
 
-// done
+
 - (void)clearTimeout:(BOOL *)timeoutFnShouldExe {
   *timeoutFnShouldExe = NO;
 }
@@ -387,7 +382,7 @@ private)
       [self onKick:DICT_KEY(package, @"body")];
       break;
     default:
-      NSLog(@"Unknown Package Type.");
+      NSLog(@"PomeloWS :: processPackage :: Unknown Package Type.");
       break;
   }
 }
@@ -413,16 +408,22 @@ private)
   NSData *ackHandshake = [PWSProtocol packageEncodeWithType:PWS_PT_HANDSHAKE_ACK andBody:nil];
   [self send:ackHandshake];
 
+  // handshake user data callback
   PomeloWSCallback callback = [_callbacks objectForKey:kPWSUserCallback];
   if (callback != nil) {
     callback([obj objectForKey:kPWSHandshakeDataUser]);
     [_callbacks removeObjectForKey:kPWSUserCallback];
   }
 
-  callback = [_callbacks objectForKey:kPWSInitCallback];
+  // pomelo has connected trigger callback(s)
+  callback = [_callbacks objectForKey:kPWSConnectCallback];
   if (callback != nil) {
     callback(self);
-    [_callbacks removeObjectForKey:kPWSInitCallback];
+    [_callbacks removeObjectForKey:kPWSConnectCallback];
+  }
+
+  if ([_delegate respondsToSelector:@selector(PomeloDidConnect:)]) {
+    [_delegate PomeloDidConnect:self];
   }
 }
 
@@ -448,17 +449,10 @@ private)
 }
 
 - (void)onData:(NSData *)data {
-//  id decodedData = [PWSProtocol messageDecode:data];
-//
-//  if ([decodedData isKindOfClass:[NSArray class]]) {
-//    [self processMessageBatch:decodedData];
-//  } else if ([decodedData isKindOfClass:[NSDictionary class]]) {
-//    [self processMessage:decodedData];
-//  }
   PWSMessage *msg = [PWSProtocol messageDecode:data];
   if ([DICT_KEY(msg, @"msgId") unsignedIntegerValue] > 0) {
-    [msg setObject:[_routeMap objectForKey:MAKE_ROUTE_KEY([DICT_KEY(msg, @"msgId") unsignedIntegerValue])] forKey:@"route"];
-    [_routeMap removeObjectForKey:MAKE_ROUTE_KEY([DICT_KEY(msg, @"msgId") unsignedIntegerValue])];
+    [msg setObject:[_routeMap objectForKey:PWSMakeRouteKey([DICT_KEY(msg, @"msgId") unsignedIntegerValue])] forKey:@"route"];
+    [_routeMap removeObjectForKey:PWSMakeRouteKey([DICT_KEY(msg, @"msgId") unsignedIntegerValue])];
     if (DICT_KEY(msg, @"route") == nil) {
       return;
     }
@@ -469,11 +463,16 @@ private)
 }
 
 - (void)onKick:(NSData *)data {
-  // ignore for now todo trigger 'onKick' event to invoke onKick callbacks
+  NSArray *array = [_callbacks objectForKey:@"onKick"];
+  if (array != nil) {
+    for (PomeloWSCallback cb in array) {
+      cb(nil);
+    }
+  }
 }
 
 - (void)heartbeatInit:(NSDictionary *)dict {
-  // DONE
+
   id dictSysValue = [dict objectForKey:kPWSHandshakeDataSys];
   NSUInteger heartbeat = 0;
 
@@ -490,7 +489,6 @@ private)
 }
 
 - (void)dataInit:(NSDictionary *)data {
-//  NSLog(@"data init :: %@", data);
   if (data == nil || [data objectForKey:@"sys"] == nil) {
     return;
   }
@@ -513,7 +511,7 @@ private)
       [dataAbbrs setObject:routeKey forKey:[initDict objectForKey:routeKey]];
     }
   }
-
+  // Init protobuf defines
   if (initProtos != nil) {
     NSDictionary *serverProtos = [initProtos objectForKey:@"server"];
     NSDictionary *clientProtos = [initProtos objectForKey:@"client"];
@@ -540,15 +538,16 @@ private)
       }
     }
   } else {
-    PomeloWSCallback cb = [_callbacks objectForKey:MAKE_CALLBACK_KEY( [DICT_KEY(msg, @"msgId") unsignedIntegerValue] )];
+    PomeloWSCallback cb = [_callbacks objectForKey:PWSMakeCallbackKey([DICT_KEY(msg, @"msgId") unsignedIntegerValue])];
     if (cb != nil) {
       cb(DICT_KEY(msg, @"body"));
-      [_callbacks removeObjectForKey:MAKE_CALLBACK_KEY( [DICT_KEY(msg, @"msgId") unsignedIntegerValue] )];
+      [_callbacks removeObjectForKey:PWSMakeCallbackKey([DICT_KEY(msg, @"msgId") unsignedIntegerValue])];
     }
   }
 
 }
 
+// never used in websocket
 - (void)processMessageBatch:(NSArray *)msgs {
   for (PWSMessage *msg in msgs) {
     [self processMessage:msg];
@@ -557,11 +556,15 @@ private)
 
 - (void)sendMessage:(NSInteger)reqId withRoute:(NSString *)route andMsg:(NSDictionary *)msg {
   PWSMessageType type = (reqId > 0) ? PWS_MT_REQUEST : PWS_MT_NOTIFY;
-  NSLog(@"sendmsg :: %@", msg);
 
-  // todo check for protobuf compress
-  // blow is msg = Protocol.strencode(JSON.stringify(msg));
-  NSData *msgSent = [PWSProtocol strEncode:[PomeloWS encodeJSON:msg error:nil]];
+  NSData *msgSent;
+  NSDictionary *dataProtos = [_data objectForKey:@"protos"];
+  NSDictionary *protos = (nil != dataProtos) ? ([dataProtos objectForKey:@"client"]) : ([NSDictionary dictionary]);
+  if (nil != [protos objectForKey:route]) {
+    msgSent = [PomeloWSProtobuf encodeWithRoute:route andMsg:msg];
+  } else {
+    msgSent = [PWSProtocol strEncode:[PomeloWS encodeJSON:msg error:nil]];
+  }
 
   BOOL compressRoute = NO;
   NSDictionary *dataDict = [_data objectForKey:@"dict"];
@@ -571,7 +574,7 @@ private)
     compressRoute = YES;
   }
 
-  NSLog(@"sendMessage routeCompresed Number :: %@", routeCompressed);
+  NSLog(@"PomeloWS :: sendMessage :: routeCompresed :: %@", routeCompressed);
   msgSent = [PWSProtocol messageEncodeWithID:reqId andType:type andCompress:compressRoute andRoute:(compressRoute ? routeCompressed : route) andBody:msgSent];
 
   NSData *packet = [PWSProtocol packageEncodeWithType:PWS_PT_DATA andBody:msgSent];
@@ -601,6 +604,3 @@ private)
 }
 
 @end
-
-#undef MAKE_ROUTE_KEY
-#undef MAKE_CALLBACK_KEY

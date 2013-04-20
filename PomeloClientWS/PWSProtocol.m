@@ -79,7 +79,7 @@ private)
 
 #pragma mark - Package Encoder and Decoder
 
-// done
+
 + (NSData *)packageEncodeWithType:(PWSPackageType)type
                           andBody:(NSData *)body {
   unsigned char iTmp = 0;
@@ -115,7 +115,7 @@ private)
   return buffer;
 }
 
-// done
+
 + (PWSPackage *)packageDecode:(NSData *)data {
   unsigned char *bytes = (unsigned char *) data.bytes;
   PWSPackageType type = (PWSPackageType) bytes[0];
@@ -129,7 +129,7 @@ private)
 
 #pragma mark - Message Encoder and Decoder
 
-// done
+
 + (NSData *)messageEncodeWithID:(NSInteger)msgId
                         andType:(PWSMessageType)type
                     andCompress:(BOOL)compressRoute
@@ -193,7 +193,7 @@ private)
   return buffer;
 }
 
-// done
+
 + (PWSMessage *)messageDecode:(NSData *)data {
   unsigned char *bytes = (unsigned char *) data.bytes;
   unsigned long bytesLen = [data length];
@@ -218,7 +218,7 @@ private)
 
   // parse route
   NSNumber *routeCode;
-  NSString *routeDecoded;
+  NSString *routeDecoded = nil;
   if ([PWSProtocol msgHasRoute:type]) {
     if (compressRoute) {
       // numberic route
@@ -241,9 +241,8 @@ private)
   unsigned long bodyLen = bytesLen - offset;
   NSMutableData *body = [NSMutableData dataWithLength:bodyLen];
   [PWSProtocol copyData:body dstOffset:0 src:data srcOffset:offset len:bodyLen];
-
+  // TODO may has bug here for Message.route
   return PWSMakeMessage(msgId, type, compressRoute, (routeDecoded == nil ? @"" : routeDecoded), body);
-  // return [PWSMessage messageWithID:msgId andType:type andCompress:compressRoute andRoute:(compressRoute ? routeCode : routeDecoded) andBody:body];
 }
 
 @end
@@ -253,7 +252,7 @@ private)
 
 @implementation PWSProtocol (
 private)
-// done
+
 + (void)copyData:(NSMutableData *)dest
        dstOffset:(NSUInteger)dest_offset
              src:(NSData *)source
@@ -266,17 +265,14 @@ private)
                      length:length];
 }
 
-// done
 + (BOOL)msgHasId:(PWSMessageType)type {
   return (type == PWS_MT_REQUEST || type == PWS_MT_RESPONSE);
 }
 
-// done
 + (BOOL)msgHasRoute:(PWSMessageType)type {
   return (type == PWS_MT_REQUEST || type == PWS_MT_NOTIFY || type == PWS_MT_PUSH);
 }
 
-// done
 + (NSUInteger)calculateMsgIdBytes:(NSInteger)msgId {
   NSUInteger len = 0;
   do {
@@ -286,7 +282,6 @@ private)
   return len;
 }
 
-// done
 + (NSUInteger)encodeMsgFlagWithType:(PWSMessageType)type
                    andCompressRoute:(BOOL)compressRoute
                           andBuffer:(NSMutableData *)buffer
@@ -301,13 +296,11 @@ private)
 
   [buffer replaceBytesInRange:NSMakeRange(offset, 1)
                     withBytes:&tmp
-                       length:1];
-  // magin number 1, for 1 byte, length of one char
+                       length:1];  // magin number 1, for 1 byte, size of one byte
 
   return offset + MSG_FLAG_BYTES;
 }
 
-// done
 + (NSUInteger)encodeMsgIdWithID:(NSInteger)msgId
                      andIDBytes:(NSUInteger)idBytes
                       andBuffer:(NSMutableData *)buffer
@@ -330,7 +323,6 @@ private)
   return offset + idBytes;
 }
 
-// done
 + (NSUInteger)encodeMsgRouteWithCompressRoute:(BOOL)compressRoute
                                      andRoute:(id)route
                                    andBuffser:(NSMutableData *)buffer
@@ -356,7 +348,7 @@ private)
                            length:1];
     }
   } else {
-//    if (route != nil && ![route isKindOfClass:[NSString class]]) {
+    // if (route != nil && ![route isKindOfClass:[NSString class]]) {
     if (route != nil && [route length] == 0) {
       [NSException raise:EXCEPTION_MSG_ROUTE_TYPE_NOT_MATCH format:@"Route %@ Must Be A NSString.", route];
     } else {
@@ -386,7 +378,6 @@ private)
   return offset;
 }
 
-// done
 + (NSUInteger)encodeMsgBodyWithBody:(NSData *)body
                           andBuffer:(NSMutableData *)buffer
                           andOffset:(NSUInteger)offset {
@@ -395,5 +386,6 @@ private)
 
   return (offset + [body length]);
 }
+
 @end
 

@@ -13,7 +13,6 @@ extern NSString *const kPWSHandshakeDataUser;
 
 extern NSString *const kPWSConnectCallback;
 extern NSString *const kPWSUserCallback;
-extern NSString *const kPWSInitCallback;
 extern NSString *const kPWSDisconnectCallback;
 
 typedef void(^PomeloWSCallback)(id arg);
@@ -24,8 +23,6 @@ typedef void(^PomeloWSCallback)(id arg);
 
 @optional
 - (void)PomeloDidConnect:(PomeloWS *)pomelo;
-
-- (void)PomeloConnectTimedout:(PomeloWS *)pomelo;
 
 - (void)PomeloDidDisconnect:(PomeloWS *)pomelo withError:(NSError *)error;
 
