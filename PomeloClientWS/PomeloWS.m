@@ -213,7 +213,7 @@ private)
   }
   // todo consider move this callback to connection has been initialed
   if ([_delegate respondsToSelector:@selector(PomeloDidConnect:)]) {
-    [_delegate PomeloWSDidConnect:self];
+    [_delegate PomeloDidConnect:self];
   }
 
   NSData *handshakeObj = [PWSProtocol packageEncodeWithType:PWS_PT_HANDSHAKE andBody:[PWSProtocol strEncode:[PomeloWS encodeJSON:_handShakeData error:nil]]];
@@ -245,7 +245,7 @@ private)
   }
   // call delegate method
   if ([_delegate respondsToSelector:@selector(PomeloDidDisconnect:withError:)]) {
-    [_delegate PomeloWSDidDisconnect:self withError:[NSError errorWithDomain:POMELO_ERROR_DOMAIN code:code userInfo:nil]];
+    [_delegate PomeloDidDisconnect:self withError:[NSError errorWithDomain:POMELO_ERROR_DOMAIN code:code userInfo:nil]];
   }
 }
 
@@ -324,7 +324,7 @@ private)
 
 - (void)error:(PomeloErrorCode)errCode {
   if ([_delegate respondsToSelector:@selector(PomeloDidDisconnect:withError:)]) {
-    [_delegate PomeloWSDidDisconnect:self withError:[NSError errorWithDomain:POMELO_ERROR_DOMAIN code:errCode userInfo:nil]];
+    [_delegate PomeloDidDisconnect:self withError:[NSError errorWithDomain:POMELO_ERROR_DOMAIN code:errCode userInfo:nil]];
   } else {
     NSString *err = [NSString stringWithFormat:@"Error occurred: 0x%08X, Domain %@.", errCode, POMELO_ERROR_DOMAIN];
     [NSException raise:err format:nil];

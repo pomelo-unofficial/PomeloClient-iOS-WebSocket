@@ -23,13 +23,13 @@ typedef void(^PomeloWSCallback)(id arg);
 @protocol PomeloWSDelegate <NSObject>
 
 @optional
-- (void)PomeloWSDidConnect:(PomeloWS *)pomelo;
+- (void)PomeloDidConnect:(PomeloWS *)pomelo;
 
-- (void)PomeloWSConnectTimedout:(PomeloWS *)pomelo;
+- (void)PomeloConnectTimedout:(PomeloWS *)pomelo;
 
-- (void)PomeloWSDidDisconnect:(PomeloWS *)pomelo withError:(NSError *)error;
+- (void)PomeloDidDisconnect:(PomeloWS *)pomelo withError:(NSError *)error;
 
-- (void)PomeloWS:(PomeloWS *)pomelo didReceiveMessage:(NSArray *)message;
+- (void)Pomelo:(PomeloWS *)pomelo didReceiveMessage:(NSArray *)message;
 
 @end
 
