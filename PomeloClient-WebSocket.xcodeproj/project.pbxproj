@@ -7,14 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20A5F00B9E624B0B31CF7E66 /* PBCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5FFD1CCE6A7F91B847632 /* PBCodec.m */; };
 		20A5F040356A6661E56DF0DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20A5F7A0517ACD9363D5713C /* UIKit.framework */; };
 		20A5F13411E188682F098949 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20A5FEA78873F093EFC4A557 /* Foundation.framework */; };
 		20A5F1F71482BB7C5AB35D8B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A5F30EF5C7607344917CEF /* Default.png */; };
 		20A5F2D18752AF4B4EE0E0DD /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20A5F4B6C2A2BCD32279BE29 /* MainStoryboard.storyboard */; };
 		20A5F2E0FFAA7990B4CE020E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A5FAE18EDB9DF3B75D14F0 /* Default-568h@2x.png */; };
 		20A5F30BA8585C7FA80C8259 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20A5F61D4E47E99BE6EA4689 /* SenTestingKit.framework */; };
+		20A5F47B880235D6E9E0A028 /* PBDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5FCBEE7B0D9A1466B3F8C /* PBDecoder.m */; };
+		20A5F53AF8738B5DA84A5518 /* PomeloWSProtobuf.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5F38B20F25879966B29CA /* PomeloWSProtobuf.m */; };
 		20A5F5573DBFF06A110D5D3B /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A5FA9D1DC2FF13E1EFB618 /* first@2x.png */; };
 		20A5F6729755A495397E26F7 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A5FE8745898EF4F2B79AEA /* first.png */; };
+		20A5F67F9D060231A298D67A /* PBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5F468FA2DBA1041B62785 /* PBHelper.m */; };
 		20A5F7074624B8456379292C /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5F424D87186256B18297D /* SecondViewController.m */; };
 		20A5F718E57DC9FDD2CDD4C4 /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5FCA80B3EFC45A7C4AE30 /* NSData+SRB64Additions.m */; };
 		20A5F7430E9E959135409A55 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 20A5F10CBFD3957311AEA1C2 /* second.png */; };
@@ -32,6 +36,7 @@
 		20A5FD696026C9492EF9146A /* PomeloWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5FB860A593E32CC34BA31 /* PomeloWS.m */; };
 		20A5FDA4FDF8C586E62029E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5F92B25428746117E5827 /* main.m */; };
 		20A5FEDE4FFBCCD69FF3331B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20A5F7A0517ACD9363D5713C /* UIKit.framework */; };
+		20A5FF77EC8AF57199CDB698 /* PBEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5F3F882D50D4F647BE9C5 /* PBEncoder.m */; };
 		20A5FFE636D570CB029D809F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A5F24EA8E8DAF7DE133DAF /* AppDelegate.m */; };
 		CC0AABB9172070FE0023253F /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0AABB8172070FE0023253F /* libicucore.dylib */; };
 		CC0AABBB172071040023253F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0AABBA172071040023253F /* CFNetwork.framework */; };
@@ -56,9 +61,12 @@
 		20A5F24EA8E8DAF7DE133DAF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		20A5F30EF5C7607344917CEF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		20A5F34246F8D6C9C46DA794 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		20A5F38B20F25879966B29CA /* PomeloWSProtobuf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PomeloWSProtobuf.m; sourceTree = "<group>"; };
 		20A5F39CA397D9292D3E2479 /* PWSProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWSProtocol.m; sourceTree = "<group>"; };
+		20A5F3F882D50D4F647BE9C5 /* PBEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBEncoder.m; sourceTree = "<group>"; };
 		20A5F424D87186256B18297D /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		20A5F43A0384317B8DB4BD2B /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
+		20A5F468FA2DBA1041B62785 /* PBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBHelper.m; sourceTree = "<group>"; };
 		20A5F4C54A2AA55A020B713C /* PomeloClient-WebSocketTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PomeloClient-WebSocketTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		20A5F5587DB09B74334482FC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		20A5F60DE5867E91B25FEA9D /* PWSProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWSProtocol.h; sourceTree = "<group>"; };
@@ -70,9 +78,11 @@
 		20A5F836DA0DD11EE1E48A4B /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
 		20A5F86ADC00C0E5764962A5 /* PomeloWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PomeloWS.h; sourceTree = "<group>"; };
 		20A5F88037FDE0E65A21408F /* PomeloWSErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PomeloWSErrors.h; sourceTree = "<group>"; };
+		20A5F8BADF40969B5150A874 /* PBDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBDecoder.h; sourceTree = "<group>"; };
 		20A5F8BFAAB8289CBD2C858B /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		20A5F8EB55DA190B5BFCE18F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		20A5F8EE3A19C8F014DD2FAC /* PomeloClient-WebSocket-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PomeloClient-WebSocket-Prefix.pch"; sourceTree = "<group>"; };
+		20A5F8F4B3E88BCD9C17FAA0 /* PomeloWSProtobuf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PomeloWSProtobuf.h; sourceTree = "<group>"; };
 		20A5F92B25428746117E5827 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		20A5FA72E2DC229D0F8545E5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		20A5FA9D1DC2FF13E1EFB618 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
@@ -80,15 +90,20 @@
 		20A5FAFBD5EE8A57A4CB024A /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		20A5FB44C93AAE80EE5B9E7B /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
 		20A5FB6873DCEE483247D1E6 /* PomeloClient-WebSocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PomeloClient-WebSocket.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		20A5FB729A09EAC1E5793ECE /* PBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBHelper.h; sourceTree = "<group>"; };
 		20A5FB860A593E32CC34BA31 /* PomeloWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PomeloWS.m; sourceTree = "<group>"; };
 		20A5FC31C0FDCCAF106C6ED5 /* SocketRocket-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SocketRocket-Prefix.pch"; sourceTree = "<group>"; };
 		20A5FC87C75BF2DBD431A75F /* PomeloClient_WebSocketTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PomeloClient_WebSocketTests.h; sourceTree = "<group>"; };
 		20A5FCA80B3EFC45A7C4AE30 /* NSData+SRB64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SRB64Additions.m"; sourceTree = "<group>"; };
+		20A5FCBEE7B0D9A1466B3F8C /* PBDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBDecoder.m; sourceTree = "<group>"; };
+		20A5FE3467951EB67CA99564 /* PBEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBEncoder.h; sourceTree = "<group>"; };
 		20A5FE8745898EF4F2B79AEA /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		20A5FEA78873F093EFC4A557 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		20A5FEBF21B3D06C3EE75762 /* PomeloClient-WebSocketTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "PomeloClient-WebSocketTests-Info.plist"; sourceTree = "<group>"; };
 		20A5FEF923B5899C48ABD681 /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		20A5FF109C331200B0077413 /* NSData+SRB64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SRB64Additions.h"; sourceTree = "<group>"; };
+		20A5FF9C85986EAC4456CE36 /* PBCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBCodec.h; sourceTree = "<group>"; };
+		20A5FFD1CCE6A7F91B847632 /* PBCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBCodec.m; sourceTree = "<group>"; };
 		CC0AABB8172070FE0023253F /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		CC0AABBA172071040023253F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CC0AABBC172071090023253F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -190,6 +205,23 @@
 			);
 			sourceTree = "<group>";
 		};
+		20A5F78C3B62BF651EE87595 /* Protobuf */ = {
+			isa = PBXGroup;
+			children = (
+				20A5FF9C85986EAC4456CE36 /* PBCodec.h */,
+				20A5F3F882D50D4F647BE9C5 /* PBEncoder.m */,
+				20A5F468FA2DBA1041B62785 /* PBHelper.m */,
+				20A5FFD1CCE6A7F91B847632 /* PBCodec.m */,
+				20A5F8BADF40969B5150A874 /* PBDecoder.h */,
+				20A5FB729A09EAC1E5793ECE /* PBHelper.h */,
+				20A5FE3467951EB67CA99564 /* PBEncoder.h */,
+				20A5FCBEE7B0D9A1466B3F8C /* PBDecoder.m */,
+				20A5F38B20F25879966B29CA /* PomeloWSProtobuf.m */,
+				20A5F8F4B3E88BCD9C17FAA0 /* PomeloWSProtobuf.h */,
+			);
+			path = Protobuf;
+			sourceTree = "<group>";
+		};
 		20A5F814AD32DFDA32363C3D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +239,7 @@
 				20A5F88037FDE0E65A21408F /* PomeloWSErrors.h */,
 				20A5F39CA397D9292D3E2479 /* PWSProtocol.m */,
 				20A5F60DE5867E91B25FEA9D /* PWSProtocol.h */,
+				20A5F78C3B62BF651EE87595 /* Protobuf */,
 			);
 			path = PomeloClientWS;
 			sourceTree = "<group>";
@@ -356,6 +389,11 @@
 				20A5F718E57DC9FDD2CDD4C4 /* NSData+SRB64Additions.m in Sources */,
 				20A5FD696026C9492EF9146A /* PomeloWS.m in Sources */,
 				20A5FC87783092FAA3FC5EBD /* PWSProtocol.m in Sources */,
+				20A5FF77EC8AF57199CDB698 /* PBEncoder.m in Sources */,
+				20A5F67F9D060231A298D67A /* PBHelper.m in Sources */,
+				20A5F00B9E624B0B31CF7E66 /* PBCodec.m in Sources */,
+				20A5F47B880235D6E9E0A028 /* PBDecoder.m in Sources */,
+				20A5F53AF8738B5DA84A5518 /* PomeloWSProtobuf.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

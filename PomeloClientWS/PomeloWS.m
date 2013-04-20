@@ -9,6 +9,7 @@
 #import "PomeloWS.h"
 #import "PWSProtocol.h"
 #import "PomeloWSErrors.h"
+#import "PomeloWSProtobuf.h"
 
 static NSString *const PWS_CLIENT_KEY_TYPE = @"type";
 static NSString *const PWS_CLIENT_VALUE_TYPE = @"pomelo-client.ios.websocket";
@@ -210,7 +211,7 @@ private)
     callback(self);
     [_callbacks removeObjectForKey:kPWSConnectCallback];
   }
-  // todo consider move this to connection has been initialed
+  // todo consider move this callback to connection has been initialed
   if ([_delegate respondsToSelector:@selector(PomeloDidConnect:)]) {
     [_delegate PomeloWSDidConnect:self];
   }
@@ -462,8 +463,8 @@ private)
       return;
     }
   }
-// // ignore for now todo deCompose
-//  msg.body = [self deCompose:msg];
+
+  [msg setObject:[self deCompose:msg] forKey:@"body"];
   [self processMessage:msg];
 }
 
@@ -489,8 +490,7 @@ private)
 }
 
 - (void)dataInit:(NSDictionary *)data {
-  // ignore for now todo we dont need dict or protos compress at present
-  NSLog(@"data init :: %@", data);
+//  NSLog(@"data init :: %@", data);
   if (data == nil || [data objectForKey:@"sys"] == nil) {
     return;
   }
@@ -500,7 +500,7 @@ private)
   }
 
   NSDictionary *initDict = [[data objectForKey:@"sys"] objectForKey:@"dict"];
-  // NSDictionary *initProtos = [[data objectForKey:@"sys"] objectForKey:@"protos"];
+  NSDictionary *initProtos = [[data objectForKey:@"sys"] objectForKey:@"protos"];
 
   // Init compress dict
   if (initDict != nil) {
@@ -514,7 +514,20 @@ private)
     }
   }
 
-  // todo Init protobuf protos defines
+  if (initProtos != nil) {
+    NSDictionary *serverProtos = [initProtos objectForKey:@"server"];
+    NSDictionary *clientProtos = [initProtos objectForKey:@"client"];
+    if (serverProtos == nil) {
+      serverProtos = [NSDictionary dictionary];
+    }
+    if (clientProtos == nil) {
+      clientProtos = [NSDictionary dictionary];
+    }
+
+    [_data setObject:[NSDictionary dictionaryWithObjectsAndKeys:serverProtos, @"server", clientProtos, @"client", nil] forKey:@"protos"];
+
+    [PomeloWSProtobuf protosInit:[NSDictionary dictionaryWithObjectsAndKeys:serverProtos, @"decoderProtos", clientProtos, @"encoderProtos", nil]];
+  }
 }
 
 - (void)processMessage:(PWSMessage *)msg {
@@ -550,7 +563,6 @@ private)
   // blow is msg = Protocol.strencode(JSON.stringify(msg));
   NSData *msgSent = [PWSProtocol strEncode:[PomeloWS encodeJSON:msg error:nil]];
 
-  // done todo check for dict route compress
   BOOL compressRoute = NO;
   NSDictionary *dataDict = [_data objectForKey:@"dict"];
   NSNumber *routeCompressed = nil;
@@ -567,8 +579,25 @@ private)
 }
 
 - (id)deCompose:(PWSMessage *)msg {
-  // ignore for now todo complete
-  return nil;
+  NSDictionary *protos = (nil != [_data objectForKey:@"protos"]) ? ([[_data objectForKey:@"protos"] objectForKey:@"server"]) : ([NSDictionary dictionary]);
+  NSDictionary *abbrs = [_data objectForKey:@"abbrs"];
+  NSString *route = [msg objectForKey:@"route"];
+
+  // typeof msg.compressRoute == __NSCFBoolean
+  if ([[msg objectForKey:@"compressRoute"] boolValue]) {
+    if ([abbrs objectForKey:@"route"] == nil) {
+      return [NSDictionary dictionary];
+    }
+
+    route = [abbrs objectForKey:route];
+    [msg setObject:route forKey:@"route"];
+  }
+
+  if ([protos objectForKey:route] != nil) {
+    return [PomeloWSProtobuf decodeWithRoute:route andData:[msg objectForKey:@"body"]];
+  } else {
+    return [PomeloWS decodeJSON:[msg objectForKey:@"body"] error:nil];
+  }
 }
 
 @end

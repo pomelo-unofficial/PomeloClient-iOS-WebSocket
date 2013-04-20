@@ -242,7 +242,7 @@ private)
   NSMutableData *body = [NSMutableData dataWithLength:bodyLen];
   [PWSProtocol copyData:body dstOffset:0 src:data srcOffset:offset len:bodyLen];
 
-  return PWSMakeMessage(msgId, type, compressRoute, (routeDecoded == nil ? @"" : routeDecoded), [NSJSONSerialization JSONObjectWithData:body options:0 error:nil]);
+  return PWSMakeMessage(msgId, type, compressRoute, (routeDecoded == nil ? @"" : routeDecoded), body);
   // return [PWSMessage messageWithID:msgId andType:type andCompress:compressRoute andRoute:(compressRoute ? routeCode : routeDecoded) andBody:body];
 }
 
