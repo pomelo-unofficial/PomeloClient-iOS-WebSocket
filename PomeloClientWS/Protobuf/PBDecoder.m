@@ -137,6 +137,7 @@ private)
       id msgName = [msg objectForKey:name];
       if (msgName == nil || ![msgName isKindOfClass:[NSMutableArray class]]) {
         msgName = [NSMutableArray array];
+        [msg setObject:msgName forKey:name];
       }
       [PBDecoder decodeArray:msgName withTypeStr:[[protos objectForKey:name] objectForKey:@"type"] andProtos:protos];
     }

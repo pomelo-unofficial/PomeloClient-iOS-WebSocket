@@ -16,8 +16,8 @@
             pbType == PBT_SInt32 ||
             pbType == PBT_Int32 ||
             pbType == PBT_Double ||
-            pbType == PBT_String ||
-            pbType == PBT_Message ||
+            // pbType == PBT_String ||
+            // pbType == PBT_Message ||
             pbType == PBT_Float
             );
 }
