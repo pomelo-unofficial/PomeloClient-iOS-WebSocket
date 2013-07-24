@@ -217,8 +217,8 @@ private)
   }
 
   // parse route
-  NSNumber *routeCode;
-  NSString *routeDecoded = nil;
+  NSNumber *routeCode = nil;
+  NSString *routeDecoded = @"";
   if ([PWSProtocol msgHasRoute:type]) {
     if (compressRoute) {
       // numberic route
@@ -231,8 +231,6 @@ private)
         NSMutableData *routeEncoded = [NSMutableData dataWithLength:routeLen];
         [PWSProtocol copyData:routeEncoded dstOffset:0 src:data srcOffset:offset len:routeLen];
         routeDecoded = [PWSProtocol strDecode:routeEncoded];
-      } else {
-        routeDecoded = @"";
       }
       offset += routeLen;
     }
@@ -242,7 +240,7 @@ private)
   NSMutableData *body = [NSMutableData dataWithLength:bodyLen];
   [PWSProtocol copyData:body dstOffset:0 src:data srcOffset:offset len:bodyLen];
   // TODO may has bug here for Message.route
-  return PWSMakeMessage(msgId, type, compressRoute, (routeDecoded == nil ? @"" : routeDecoded), body);
+  return PWSMakeMessage(msgId, type, compressRoute, (routeCode == nil ? routeDecoded : routeCode ), body);
 }
 
 @end
