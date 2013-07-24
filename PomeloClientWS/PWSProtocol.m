@@ -231,8 +231,6 @@ private)
         NSMutableData *routeEncoded = [NSMutableData dataWithLength:routeLen];
         [PWSProtocol copyData:routeEncoded dstOffset:0 src:data srcOffset:offset len:routeLen];
         routeDecoded = [PWSProtocol strDecode:routeEncoded];
-      } else {
-        routeDecoded = @"";
       }
       offset += routeLen;
     }
