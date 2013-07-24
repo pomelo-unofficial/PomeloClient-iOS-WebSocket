@@ -73,6 +73,7 @@ typedef void(^PomeloWSCallback)(id arg);
 
 - (void)connectToHost:(NSString *)host onPort:(NSInteger)port withParams:(NSDictionary *)params;
 
+- (void)connectToHost:(NSString *)host onPort:(NSInteger)port params:(NSDictionary *)params withCallback:(PomeloWSCallback)callback;
 #pragma mark - disconnect
 - (void)disconnect;
 
