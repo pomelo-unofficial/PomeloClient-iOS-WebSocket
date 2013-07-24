@@ -186,6 +186,21 @@ private)
   [_webSocket open];
 }
 
+
+
+- (void)connectToHost:(NSString *)host onPort:(NSInteger)port params:(NSDictionary *)params withCallback:(PomeloWSCallback)callback
+{
+    NSMutableDictionary *muDict = [NSMutableDictionary dictionary];
+    [muDict setObject:params forKey:kPWSHandshakeDataUser ];
+    if (callback) {
+        [muDict setObject:callback forKey:kPWSConnectCallback];
+    }
+    
+    [self connectToHost:host onPort:port withParams:muDict];
+    
+}
+
+
 #pragma mark - disconnect
 - (void)disconnect {
 
@@ -588,7 +603,7 @@ private)
 
   // typeof msg.compressRoute == __NSCFBoolean
   if ([[msg objectForKey:@"compressRoute"] boolValue]) {
-    if ([abbrs objectForKey:@"route"] == nil) {
+    if ([abbrs objectForKey:[msg objectForKey:@"route"]] == nil) {
       return [NSDictionary dictionary];
     }
 

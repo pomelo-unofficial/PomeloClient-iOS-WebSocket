@@ -159,7 +159,7 @@ private)
 
       NSDictionary *proto = [protos objectForKey:name];
       NSString *protoOpt = [proto objectForKey:@"option"];
-      NSString *protoTypeStr = [[proto objectForKey:@"type"] stringValue];
+      NSString *protoTypeStr = [proto objectForKey:@"type"];
       if ([protoOpt isEqualToString:@"required"] || [protoOpt isEqualToString:@"optional"]) {
         NSUInteger protoTag = [[proto objectForKey:@"tag"] unsignedIntegerValue];
         NSMutableData *_local_buffer_ = [PBEncoder encodeTag:protoTag withPBTypeStr:protoTypeStr];
