@@ -217,7 +217,7 @@ private)
   }
 
   // parse route
-  NSNumber *routeCode;
+  NSNumber *routeCode = nil;
   NSString *routeDecoded = nil;
   if ([PWSProtocol msgHasRoute:type]) {
     if (compressRoute) {
@@ -242,7 +242,7 @@ private)
   NSMutableData *body = [NSMutableData dataWithLength:bodyLen];
   [PWSProtocol copyData:body dstOffset:0 src:data srcOffset:offset len:bodyLen];
   // TODO may has bug here for Message.route
-  return PWSMakeMessage(msgId, type, compressRoute, (routeDecoded == nil ? @"" : routeDecoded), body);
+  return PWSMakeMessage(msgId, type, compressRoute, (routeCode == nil ? routeDecoded : routeCode ), body);
 }
 
 @end
