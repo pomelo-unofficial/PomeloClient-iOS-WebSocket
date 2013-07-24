@@ -59,7 +59,7 @@ typedef NSMutableDictionary PWSPackage;
 
 NS_INLINE
 
-PWSMessage *PWSMakeMessage(NSUInteger msgId, PWSMessageType type, BOOL compressRoute, NSString *route, NSData *body) {
+PWSMessage *PWSMakeMessage(NSUInteger msgId, PWSMessageType type, BOOL compressRoute, id route, NSData *body) {
   return [NSMutableDictionary dictionaryWithObjectsAndKeys:
       [NSNumber numberWithUnsignedInteger:msgId], @"msgId",
       [NSNumber numberWithUnsignedInteger:type], @"type",
