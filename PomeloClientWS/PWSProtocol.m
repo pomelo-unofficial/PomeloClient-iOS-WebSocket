@@ -218,7 +218,7 @@ private)
 
   // parse route
   NSNumber *routeCode = nil;
-  NSString *routeDecoded = nil;
+  NSString *routeDecoded = @"";
   if ([PWSProtocol msgHasRoute:type]) {
     if (compressRoute) {
       // numberic route
