@@ -46,11 +46,10 @@ private)
                           andBuffer:(NSMutableData *)buffer
                           andOffset:(NSUInteger)offset;
 
+
 + (NSUInteger)encodeMsgIdWithID:(NSInteger)msgId
-                     andIDBytes:(NSUInteger)idBytes
                       andBuffer:(NSMutableData *)buffer
                       andOffset:(NSUInteger)offset;
-
 + (NSUInteger)encodeMsgRouteWithCompressRoute:(BOOL)compressRoute
                                      andRoute:(id)route
                                    andBuffser:(NSMutableData *)buffer
@@ -177,7 +176,7 @@ private)
 
   // add message id
   if ([PWSProtocol msgHasId:type]) {
-    offset = [PWSProtocol encodeMsgIdWithID:msgId andIDBytes:idBytes andBuffer:buffer andOffset:offset];
+    offset = [PWSProtocol encodeMsgIdWithID:msgId andBuffer:buffer andOffset:offset];
   }
 
   // add route
@@ -207,13 +206,14 @@ private)
 
   // parse id
   if ([PWSProtocol msgHasId:type]) {
-    unsigned char byte = bytes[offset++];
-    msgId = byte & 0x7f;
-    while (byte & 0x80) {
-      msgId <<= 7;
-      byte = bytes[offset++];
-      msgId |= byte & 0x7f;
-    }
+	  NSInteger m = bytes[offset];
+	  int i = 0;
+	  do{
+		  m = bytes[offset];
+		  msgId = msgId +((m & 0x7f) *pow(2, 7*i));
+		  offset++;
+		  i++;
+	  }while(m>=128);
   }
 
   // parse route
@@ -299,26 +299,25 @@ private)
   return offset + MSG_FLAG_BYTES;
 }
 
+
+
 + (NSUInteger)encodeMsgIdWithID:(NSInteger)msgId
-                     andIDBytes:(NSUInteger)idBytes
                       andBuffer:(NSMutableData *)buffer
                       andOffset:(NSUInteger)offset {
-  unsigned long index = offset + idBytes - 1;
+	NSUInteger tmpOffset = offset;
+	NSInteger tmpMsgId = msgId;
+	do {
+		NSInteger tmp = tmpMsgId % 128;
+		NSInteger next = tmpMsgId /128;
+		if (next != 0) {
+			tmp += 128;
+		}
+		[buffer replaceBytesInRange:NSMakeRange(tmpOffset++, 1) withBytes:&tmp length:1];
+		tmpMsgId = next;
+	} while (tmpMsgId != 0);
+	
+	return tmpOffset;
 
-  unsigned char tmp = (unsigned char) (msgId & 0x7f);
-  [buffer replaceBytesInRange:NSMakeRange(index--, 1)
-                    withBytes:&tmp
-                       length:1];
-
-  while (index >= offset) {
-    msgId >>= 7;
-    tmp = (unsigned char) ((msgId & 0x7f) | 0x80);
-    [buffer replaceBytesInRange:NSMakeRange(index--, 1)
-                      withBytes:&tmp
-                         length:1];
-  }
-
-  return offset + idBytes;
 }
 
 + (NSUInteger)encodeMsgRouteWithCompressRoute:(BOOL)compressRoute
