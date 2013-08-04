@@ -69,6 +69,20 @@ typedef enum {
 + (int32_t)decodeSInt32:(NSData *)data;
 
 /**
+ * unsigned long long
+ */
++ (NSMutableData *)encodeUInt64:(uint64_t)n;
+
++ (uint64_t)decodeUInt64:(NSData *)data;
+
+/**
+ * signed long long
+ */
++ (NSMutableData *)encodeSInt64:(int64_t)n;
+
++ (int64_t)decodeSInt64:(NSData *)data;
+
+/**
  * float
  */
 + (NSMutableData *)encodeFloat:(float)n;
