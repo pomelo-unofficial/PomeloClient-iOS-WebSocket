@@ -8,6 +8,8 @@
 
 #import "FirstViewController.h"
 
+#import "PBCodec.h"
+
 @interface FirstViewController ()
 
 @end
@@ -43,6 +45,36 @@
     NSDictionary *dict = arg;
     lastStatus.text = [NSString stringWithFormat:@"user leave : %@", [dict objectForKey:@"user"]];
   }];
+
+  // http://stackoverflow.com/questions/5172421/generate-a-random-float-between-0-and-1
+
+  #define ARC4RANDOM_MAX      0xFFFFFFFF
+  int loop = 10000;
+  // test uint64
+  uint64_t limit = 0x3FFFFFFFFFFFFFFF;
+  // limit = 0xFFFFFFFF;
+  for (int i = 0; i< loop; i++) {
+    double val = ((double)arc4random() / ARC4RANDOM_MAX);
+    uint64_t number = (uint64_t)(val * limit);
+    NSMutableData* data = [PBCodec encodeUInt64:number];
+    uint64_t result = [PBCodec decodeUInt64:data];
+    NSLog(@"dat: %@ => src: %llu => dst: %llu", data, number, result);
+    assert(number == result);
+  }
+
+  // test sint64
+  limit = 0xfffffffffffff;
+  // limit = 0x7FFFFFFF;
+  for (int i = 0; i< loop; i++) {
+    int flag = ((double)arc4random() / ARC4RANDOM_MAX) > 0.5 ? -1 : 1;
+    double val = ((double)arc4random() / ARC4RANDOM_MAX);
+
+    int64_t number = (int64_t)(val * limit) * flag;
+    NSMutableData* data = [PBCodec encodeSInt64:number];
+    int64_t result = [PBCodec decodeSInt64:data];
+    NSLog(@"dat: %@ => src: %lld => dst: %lld", data, number, result);
+    assert(number == result);
+  }
 }
 
 - (void)didReceiveMemoryWarning {
