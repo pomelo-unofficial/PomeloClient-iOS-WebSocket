@@ -20,14 +20,14 @@
 #define JSON_parse(string) [NSJSONSerialization JSONObjectWithData:([string dataUsingEncoding:NSUTF8StringEncoding]) options:NSJSONReadingAllowFragments|NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:nil]
 
 typedef enum {
-  PBT_Unknown = -1,
-  PBT_UInt32 = 0,
-  PBT_SInt32 = 0,
-  PBT_Int32 = 0,
-  PBT_Double = 1,
-  PBT_String = 2,
-  PBT_Message = 2,
-  PBT_Float = 5
+	PBT_Unknown = -1,
+	PBT_UInt32 = 0,
+	PBT_SInt32 = 0,
+	PBT_Int32 = 0,
+	PBT_Double = 1,
+	PBT_String = 2,
+	PBT_Message = 2,
+	PBT_Float = 5
 } ProtoBufType;
 
 //inline void translatePBTypeFromType(ProtoBufType type, NSMutableString *str) {
@@ -57,30 +57,30 @@ typedef enum {
 /**
  * unsigned long
  */
-+ (NSMutableData *)encodeUInt32:(uint32_t)n;
++ (NSMutableData *)encodeUInt32:(uint64_t)n;
 
-+ (uint32_t)decodeUInt32:(NSData *)data;
++ (uint64_t)decodeUInt32:(NSData *)data;
 
 /**
  * signed long
  */
-+ (NSMutableData *)encodeSInt32:(int32_t)n;
++ (NSMutableData *)encodeSInt32:(int64_t)n;
 
-+ (int32_t)decodeSInt32:(NSData *)data;
++ (int64_t)decodeSInt32:(NSData *)data;
 
-/**
- * unsigned long long
- */
-+ (NSMutableData *)encodeUInt64:(uint64_t)n;
-
-+ (uint64_t)decodeUInt64:(NSData *)data;
-
-/**
- * signed long long
- */
-+ (NSMutableData *)encodeSInt64:(int64_t)n;
-
-+ (int64_t)decodeSInt64:(NSData *)data;
+///**
+// * unsigned long long
+// */
+//+ (NSMutableData *)encodeUInt64:(uint64_t)n;
+//
+//+ (uint64_t)decodeUInt64:(NSData *)data;
+//
+///**
+// * signed long long
+// */
+//+ (NSMutableData *)encodeSInt64:(int64_t)n;
+//
+//+ (int64_t)decodeSInt64:(NSData *)data;
 
 /**
  * float

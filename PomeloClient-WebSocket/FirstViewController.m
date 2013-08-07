@@ -56,8 +56,8 @@
   for (int i = 0; i< loop; i++) {
     double val = ((double)arc4random() / ARC4RANDOM_MAX);
     uint64_t number = (uint64_t)(val * limit);
-    NSMutableData* data = [PBCodec encodeUInt64:number];
-    uint64_t result = [PBCodec decodeUInt64:data];
+    NSMutableData* data = [PBCodec encodeUInt32:number];
+    uint64_t result = [PBCodec decodeUInt32:data];
     NSLog(@"dat: %@ => src: %llu => dst: %llu", data, number, result);
     assert(number == result);
   }
@@ -70,8 +70,8 @@
     double val = ((double)arc4random() / ARC4RANDOM_MAX);
 
     int64_t number = (int64_t)(val * limit) * flag;
-    NSMutableData* data = [PBCodec encodeSInt64:number];
-    int64_t result = [PBCodec decodeSInt64:data];
+    NSMutableData* data = [PBCodec encodeSInt32:number];
+    int64_t result = [PBCodec decodeSInt32:data];
     NSLog(@"dat: %@ => src: %lld => dst: %lld", data, number, result);
     assert(number == result);
   }
