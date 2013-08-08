@@ -178,6 +178,9 @@ static NSUInteger _offset = 0;
 	} else {
 		NSDictionary *privateProtosMsg = [protos objectForKey:@"__messages"];
 		NSDictionary *privateProtosMsgType = [privateProtosMsg objectForKey:typeStr];
+		if (privateProtosMsgType == nil) {
+			privateProtosMsgType = [[PBDecoder protos] objectForKey:[NSString stringWithFormat:@"message %@", typeStr]];
+		}
 		if (protos != nil && privateProtosMsgType != nil) {
 			[PBDecoder getBytes:NO toBuffer:_local_buffer_];
 			NSUInteger length = (NSUInteger)[PBCodec decodeUInt32:_local_buffer_];
